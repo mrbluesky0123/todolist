@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="form-group col-md-8">
+    <label class="col-form-label">Category </label>
+    <select  id="category" name="category" >
+        <option th:each="category : ${goodsList}" th:value="${category.cdKey}" th:utext="${category.cdVal}"/>
+    </select>
+</div>
+</body>
+</html>
