@@ -3,7 +3,7 @@ spring:
   datasource:
     url: jdbc:mariadb://198.13.47.188:19762/ssgdf
     username: mrbluesky
-    password:
+    password: kang12!@
   thymeleaf:
     prefix: classpath:templates/
     suffix: .html

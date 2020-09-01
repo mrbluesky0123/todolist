@@ -2,6 +2,7 @@ package com.ssgdfcrm.todolist.code.controller;
 
 import com.ssgdfcrm.todolist.code.dao.CodeDao;
 import com.ssgdfcrm.todolist.code.model.Code;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class CodeController {
 
     private CodeDao codeDao;
@@ -18,6 +20,7 @@ public class CodeController {
     @Autowired
     public CodeController(CodeDao codeDao) {
         this.codeDao = codeDao;
+        log.error("###### CodeController");
     }
 
     @GetMapping("/partname")
@@ -31,6 +34,11 @@ public class CodeController {
 
         return modelAndView;
 
+    }
+
+    @GetMapping("/t")
+    public String test2() {
+        return "World";
     }
 
 }
