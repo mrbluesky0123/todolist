@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface TodoDao extends JpaRepository<Todo, Long> {
 
-    List<Todo> findAllByOrderByRegDtDesc();
+    List<Todo> findAllByOrderById();
     List<Todo> findByDvlprId(String dvlprId);
     List<Todo> findByPgmPart(String pgmPart);
     Todo save(Todo todo);

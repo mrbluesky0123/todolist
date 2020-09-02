@@ -18,7 +18,7 @@ public class TodoService {
     }
 
     public List<Todo> getAllTodoList() {
-        return this.todoDao.findAllByOrderByRegDtDesc();
+        return this.todoDao.findAllByOrderById();
     }
 
     public List<Todo> getTodoListByPgmPart(String pgmPart) {

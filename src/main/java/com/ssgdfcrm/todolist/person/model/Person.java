@@ -20,10 +20,10 @@ public class Person {
     private Integer id;
 
     @Column(name="p_id")
-    private String pId;
+    private String personId;
 
     @Column(name="p_nm")
-    private String pNm;
+    private String personNm;
 
     @Column(name="prt_nm")
     private String prtNm;

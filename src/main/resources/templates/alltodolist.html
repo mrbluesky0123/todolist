@@ -5,55 +5,49 @@
     <title>Todo List</title>
     <!-- JQury from Google CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script th:inline="javascript">
+        function loadSearchResult() {
+            $.ajax({
+                type: 'get',
+                url: '/refreshtodolist',
+                success: function (data){
+                    $('#todo-div').html(data);
+                }
+            })
+
+        }
+        function changeFunc(key) {
+            console.log("#### " + key.value);
+            console.log("#### " + $("#part option:selected").val());
+            console.log("#### " + $("#status option:selected").val());
+        }
+    </script>
+
 </head>
 <body>
-<!--th:onclick="'loadSearchResult();'"-->
-<button class="btn btn-primary btn-sm" >Search</button>
-<div class="row">
-    <div class="col-md-12 search_list">
-        <div class="table-responsive" th:fragment="search_list">
-            <table class="table  table-bordered ">
-                <thead>
-                    <tr>
-                        <th>TodoID</th>
-                        <th>상태</th>
-                        <th>작성일</th>
-                        <th>작성자</th>
-                        <th>program 파트</th>
-                        <th>program id</th>
-                        <th>program명</th>
-                        <th>program한글명</th>
-                        <th>담당자</th>
-                        <th>검토자의견</th>
-                        <th>담당자의견</th>
-                        <th>조치요청기한</th>
-                        <th>조치예정기한</th>
-                        <th>조치완료기한</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr th:each="todo : ${todoList}">
-                    <td th:text="${todo.id}">id</td>
-                    <td th:text="${todo.pgmSts}">pgmSts</td>
-                    <td th:text="${todo.regDt}">regDt</td>
-                    <td th:text="${todo.regrId}">regrId</td>
-                    <td th:text="${todo.pgmPart}">pgmPart</td>
-                    <td th:text="${todo.pgmId}">pgmId</td>
-                    <td th:text="${todo.pgmNm}">pgmNm</td>
-                    <td th:text="${todo.pgmHnm}">pgmHnm</td>
-                    <td th:text="${todo.dvlprId}">dvlprId</td>
-                    <td th:text="${todo.sprvsrDscrptn}">sprvsrDscrptn</td>
-                    <td th:text="${todo.dvlprDscrptn}">dvlprDscrptn</td>
-                    <td th:text="${todo.actnReqDy}">actnReqDy</td>
-                    <td th:text="${todo.actnPsbDy}">actnPsbDy</td>
-                    <td th:text="${todo.actnCmplDy}">actnCmplDy</td>
-                </tr>
-                </tbody>
 
-            </table>
-        </div>
+<!--    <button class="btn btn-primary btn-sm" th:onclick="'loadSearchResult();'">Search</button>-->
+    <select  id="user" name="category" onchange="changeFunc(this)">
+        <option value="all">전체</option>
+        <option th:each="statusCode : ${statusCodeList}" th:value="${statusCode.cdKey}" th:utext="${statusCode.cdVal}"/>
+    </select>
+    <select  id="part" name="part" >
+        <option value="all">전체</option>
+        <option th:each="partCode : ${partCodeList}" th:value="${partCode.cdKey}" th:utext="${partCode.cdVal}"/>
+    </select>
+    <select  id="status" name="status" >
+        <option value="all">전체</option>
+        <option th:each="person : ${personList}" th:value="${person.personId}" th:utext="${person.personNm}"/>
+    </select>
+    <div id="todo-div" class="row">
+        <table id="todos" th:replace="tablefragment.html :: todo-table"></table>
     </div>
-</div>
 </body>
 
 </html>
