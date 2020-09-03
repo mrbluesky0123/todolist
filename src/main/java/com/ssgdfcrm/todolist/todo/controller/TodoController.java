@@ -10,9 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -36,7 +34,7 @@ public class TodoController {
     @GetMapping("/alltodolist")
     public ModelAndView getAllTodoList() {
         ModelAndView modelAndView = new ModelAndView();
-        List<Todo> todoList = this.todoService.getAllTodoList();
+        List<Todo> todoList = this.todoService.getTodoList("ALL", "ALL", "ALL");
         List<Code> partCodeList = this.codeService.getCodeByCdGrp("PART_NM");
         List<Code> statusCodeList = this.codeService.getCodeByCdGrp("PGM_STS");
         List<Person> personList = this.personService.getAllPersonList();
@@ -53,12 +51,32 @@ public class TodoController {
     }
 
     @GetMapping("/refreshtodolist")
-    public ModelAndView refreshAllTodoList() {
+    public ModelAndView refreshAllTodoList(@RequestParam String status,
+                                           @RequestParam String partName,
+                                           @RequestParam String developerId) {
+
         ModelAndView modelAndView = new ModelAndView();
-        List<Todo> todoList = this.todoService.getAllTodoList();
+        List<Todo> todoList = this.todoService.getTodoList(status, partName, developerId);
 
         modelAndView.setViewName("tablefragment");
         modelAndView.addObject("todoList", todoList);
+        return modelAndView;
+    }
+
+    @GetMapping("/singletodo/{id}")
+    public String redirectSingleTodo(@PathVariable int id) {
+        log.error(("##########$$$$$$$$$$$$$$$###############"));
+        return "redirect:/todoview/" + id;
+    }
+
+    @GetMapping("/todoview/{id}")
+    public ModelAndView gatSingleTodo(@PathVariable int id) {
+
+        ModelAndView modelAndView = new ModelAndView();
+        Todo todo = this.todoService.getTodoByTodoId(id);
+        log.error(("#########################"));
+        modelAndView.setViewName("singletodolist");
+        modelAndView.addObject("todo", todo);
         return modelAndView;
     }
 

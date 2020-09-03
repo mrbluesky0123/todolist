@@ -11,42 +11,64 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
     <script th:inline="javascript">
-        function loadSearchResult() {
+        function filter() {
             $.ajax({
                 type: 'get',
-                url: '/refreshtodolist',
+                url: '/refreshtodolist?status=' + $("#status option:selected").val() + '&'
+                                    + 'partName=' + $("#part option:selected").val() + '&'
+                                    + 'developerId=' + $("#developer option:selected").val(),
                 success: function (data){
                     $('#todo-div').html(data);
+                    tableSet();
                 }
             })
 
         }
         function changeFunc(key) {
-            console.log("#### " + key.value);
-            console.log("#### " + $("#part option:selected").val());
             console.log("#### " + $("#status option:selected").val());
+            console.log("#### " + $("#part option:selected").val());
+            console.log("#### " + $("#developer option:selected").val());
         }
+        function tableSet() {
+            var table = $('#todo-list').DataTable({
+                "paging": false,
+                "dom": 't'
+                // "ordering": false,
+                // "info":     false
+            } );
+
+            $('#todo-list tbody').on('click', 'tr', function () {
+                var data = table.row( this ).data();
+                location.href = "/todoview/" + data[0];
+            } );
+        }
+        $(document).ready(function() {
+            tableSet();
+        } );
     </script>
 
 </head>
 <body>
 
-<!--    <button class="btn btn-primary btn-sm" th:onclick="'loadSearchResult();'">Search</button>-->
-    <select  id="user" name="category" onchange="changeFunc(this)">
-        <option value="all">전체</option>
-        <option th:each="statusCode : ${statusCodeList}" th:value="${statusCode.cdKey}" th:utext="${statusCode.cdVal}"/>
-    </select>
-    <select  id="part" name="part" >
-        <option value="all">전체</option>
-        <option th:each="partCode : ${partCodeList}" th:value="${partCode.cdKey}" th:utext="${partCode.cdVal}"/>
-    </select>
-    <select  id="status" name="status" >
-        <option value="all">전체</option>
-        <option th:each="person : ${personList}" th:value="${person.personId}" th:utext="${person.personNm}"/>
-    </select>
-    <div id="todo-div" class="row">
-        <table id="todos" th:replace="tablefragment.html :: todo-table"></table>
+    <div id="filter" style="margin-left:100px;margin-top:100px">
+        <select  id="status" name="status" style="width:90px;height:30px">
+            <option value="ALL">요청상태</option>
+            <option th:each="statusCode : ${statusCodeList}" th:value="${statusCode.cdVal}" th:utext="${statusCode.cdVal}"/>
+        </select>
+        <select  id="part" name="part" style="width:100px;height:30px">
+            <option value="ALL">파트</option>
+            <option th:each="partCode : ${partCodeList}" th:value="${partCode.cdVal}" th:utext="${partCode.cdVal}"/>
+        </select>
+        <select  id="developer" name="developer" style="width:90px;height:30px">
+            <option value="ALL">담당자</option>
+            <option th:each="person : ${personList}" th:value="${person.personId}" th:utext="${person.personNm}"/>
+        </select>
+        <button class="btn" th:onclick="'filter();'">필터</button>
+    </div>
+    <div id="todo-div" class="row" style="width:90%;margin-left:100px">
+        <table th:replace="tablefragment.html :: todo-table"></table>
     </div>
 </body>
 

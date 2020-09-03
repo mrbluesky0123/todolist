@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+    <!-- JQury from Google CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <style>
+        td {
+            vertical-align: top;
+            padding: 0 50px 0 50px !important;
+        }
+        th {
+            text-align: center;
+        }
+    </style>
+    <script th:inline="javascript">
+
+        function tableSet() {
+            var table = $('#todo-list').DataTable({
+                "paging": false,
+                "dom": 't'
+                // "ordering": false,
+                // "info":     false
+            } );
+        }
+        $(document).ready(function() {
+            tableSet();
+        } );
+
+    </script>
+
+</head>
+<body>
+
+<div id="todo-div" class="row" style="width:90%;margin-left:100px;margin-top:200px">
+    <table id="todo-list" th:fragment="todo-table" class="display compact"
+           style="width:100%">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>상태</th>
+            <th>작성일</th>
+            <th>작성자</th>
+            <th>파트</th>
+            <th>프로그램id</th>
+            <th>프로그램명</th>
+            <th>프로그램한글명</th>
+            <th>담당자</th>
+            <th>검토자의견</th>
+            <th>담당자의견</th>
+            <th>조치요청기한</th>
+            <th>조치예정기한</th>
+            <th>조치완료기한</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${todo.id}">id</td>
+            <td th:text="${todo.pgmSts}">pgmSts</td>
+            <td th:text="${todo.regDt}">regDt</td>
+            <td th:text="${todo.regrId}">regrId</td>
+            <td th:text="${todo.pgmPart}">pgmPart</td>
+            <td th:text="${todo.pgmId}">pgmId</td>
+            <td th:text="${todo.pgmNm}">pgmNm</td>
+            <td th:text="${todo.pgmHnm}">pgmHnm</td>
+            <td th:text="${todo.dvlprId}">dvlprId</td>
+            <td>
+                <textarea rows="3" style="margin-top: 5px; resize: none; width: 400px" name="notes"
+                          th:inline="text">[[${todo.sprvsrDscrptn}]]</textarea>
+            </td>
+            <td th:text="${todo.dvlprDscrptn}">dvlprDscrptn</td>
+            <td th:text="${todo.actnReqDy}">actnReqDy</td>
+            <td th:text="${todo.actnPsbDy}">actnPsbDy</td>
+            <td th:text="${todo.actnCmplDy}">actnCmplDy</td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+</body>
+
+</html>

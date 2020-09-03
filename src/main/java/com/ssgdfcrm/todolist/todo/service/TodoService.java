@@ -17,8 +17,8 @@ public class TodoService {
         this.todoDao = todoDao;
     }
 
-    public List<Todo> getAllTodoList() {
-        return this.todoDao.findAllByOrderById();
+    public List<Todo> getTodoList(String status, String partName, String developerId) {
+        return this.todoDao.findByConditions(status, partName, developerId);
     }
 
     public List<Todo> getTodoListByPgmPart(String pgmPart) {
@@ -27,6 +27,10 @@ public class TodoService {
 
     public List<Todo> getTodoListByDvlprID(String dvlprId) {
         return this.todoDao.findByDvlprId(dvlprId);
+    }
+
+    public Todo getTodoByTodoId(int todoId) {
+        return this.todoDao.findById(todoId);
     }
 
 }
