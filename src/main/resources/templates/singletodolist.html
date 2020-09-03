@@ -11,15 +11,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <style>
-        td {
-            vertical-align: top;
-            padding: 0 50px 0 50px !important;
-        }
-        th {
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <script th:inline="javascript">
 
         function tableSet() {
@@ -39,8 +31,8 @@
 </head>
 <body>
 
-<div id="todo-div" class="row" style="width:90%;margin-left:100px;margin-top:200px">
-    <table id="todo-list" th:fragment="todo-table" class="display compact"
+<div id="todo-div" class="row div-display">
+    <table id="todo-list" th:fragment="todo-table" class="display compact main-table"
            style="width:100%">
         <thead>
         <tr>

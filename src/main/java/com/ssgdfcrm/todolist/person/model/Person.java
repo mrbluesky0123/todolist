@@ -15,10 +15,6 @@ import javax.persistence.*;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    private Integer id;
-
     @Column(name="p_id")
     private String personId;
 

@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
@@ -41,7 +42,7 @@
 
             $('#todo-list tbody').on('click', 'tr', function () {
                 var data = table.row( this ).data();
-                location.href = "/todoview/" + data[0];
+                $(document).load("/todoview/" + data[0]);
             } );
         }
         $(document).ready(function() {
@@ -52,7 +53,7 @@
 </head>
 <body>
 
-    <div id="filter" style="margin-left:100px;margin-top:100px">
+    <div id="filter" class="div-display">
         <select  id="status" name="status" style="width:90px;height:30px">
             <option value="ALL">요청상태</option>
             <option th:each="statusCode : ${statusCodeList}" th:value="${statusCode.cdVal}" th:utext="${statusCode.cdVal}"/>
@@ -67,7 +68,7 @@
         </select>
         <button class="btn" th:onclick="'filter();'">필터</button>
     </div>
-    <div id="todo-div" class="row" style="width:90%;margin-left:100px">
+    <div id="todo-div">
         <table th:replace="tablefragment.html :: todo-table"></table>
     </div>
 </body>
