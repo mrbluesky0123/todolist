@@ -39,10 +39,10 @@
                 // "ordering": false,
                 // "info":     false
             } );
-
+            $('#todo-list').addClass("main-table");
             $('#todo-list tbody').on('click', 'tr', function () {
                 var data = table.row( this ).data();
-                $(document).load("/todoview/" + data[0]);
+                location.href = "/todoview/" + data[0];
             } );
         }
         $(document).ready(function() {
@@ -53,7 +53,7 @@
 </head>
 <body>
 
-    <div id="filter" class="div-display">
+    <div id="filter" class="general-div">
         <select  id="status" name="status" style="width:90px;height:30px">
             <option value="ALL">요청상태</option>
             <option th:each="statusCode : ${statusCodeList}" th:value="${statusCode.cdVal}" th:utext="${statusCode.cdVal}"/>
@@ -68,8 +68,8 @@
         </select>
         <button class="btn" th:onclick="'filter();'">필터</button>
     </div>
-    <div id="todo-div">
-        <table th:replace="tablefragment.html :: todo-table"></table>
+    <div id="todo-div" class="table-div-list">
+        <table class="display main-table compact" th:replace="tablefragment.html :: todo-table"></table>
     </div>
 </body>
 

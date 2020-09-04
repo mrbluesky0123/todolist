@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <script th:inline="javascript">
 
         function tableSet() {
@@ -21,6 +21,7 @@
                 // "ordering": false,
                 // "info":     false
             } );
+            $('td').addClass("main-table");
         }
         $(document).ready(function() {
             tableSet();
@@ -31,51 +32,93 @@
 </head>
 <body>
 
-<div id="todo-div" class="row div-display">
-    <table id="todo-list" th:fragment="todo-table" class="display compact main-table"
-           style="width:100%">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>상태</th>
-            <th>작성일</th>
-            <th>작성자</th>
-            <th>파트</th>
-            <th>프로그램id</th>
-            <th>프로그램명</th>
-            <th>프로그램한글명</th>
-            <th>담당자</th>
-            <th>검토자의견</th>
-            <th>담당자의견</th>
-            <th>조치요청기한</th>
-            <th>조치예정기한</th>
-            <th>조치완료기한</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:text="${todo.id}">id</td>
-            <td th:text="${todo.pgmSts}">pgmSts</td>
-            <td th:text="${todo.regDt}">regDt</td>
-            <td th:text="${todo.regrId}">regrId</td>
-            <td th:text="${todo.pgmPart}">pgmPart</td>
-            <td th:text="${todo.pgmId}">pgmId</td>
-            <td th:text="${todo.pgmNm}">pgmNm</td>
-            <td th:text="${todo.pgmHnm}">pgmHnm</td>
-            <td th:text="${todo.dvlprId}">dvlprId</td>
-            <td>
-                <textarea rows="3" style="margin-top: 5px; resize: none; width: 400px" name="notes"
-                          th:inline="text">[[${todo.sprvsrDscrptn}]]</textarea>
-            </td>
-            <td th:text="${todo.dvlprDscrptn}">dvlprDscrptn</td>
-            <td th:text="${todo.actnReqDy}">actnReqDy</td>
-            <td th:text="${todo.actnPsbDy}">actnPsbDy</td>
-            <td th:text="${todo.actnCmplDy}">actnCmplDy</td>
-        </tr>
-        </tbody>
+<div id="todo-div" class="row">
+    <div class="table-div-single">
+        <table id="todo-list" th:fragment="todo-table" class="display main-table">
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>#</th>-->
+<!--                <th>상태</th>-->
+<!--                <th>작성일</th>-->
+<!--                <th>작성자</th>-->
+<!--                <th>파트</th>-->
+<!--                <th>프로그램id</th>-->
+<!--                <th>프로그램명</th>-->
+<!--                <th>프로그램한글명</th>-->
+<!--                <th>담당자</th>-->
+<!--                <th>검토자의견</th>-->
+<!--                <th>담당자의견</th>-->
+<!--                <th>조치요청기한</th>-->
+<!--                <th>조치예정기한</th>-->
+<!--                <th>조치완료기한</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+            <tbody>
+            <tr>
+                <td class="single-title">id</td>
+                <td th:text="${todo.id}">id</td>
+            </tr>
+            <tr>
+                <td class="single-title">상태</td>
+                <td th:text="${todo.pgmSts}">pgmSts</td>
+            </tr>
+            <tr>
+                <td class="single-title">작성일</td>
+                <td th:text="${todo.regDt}">regDt</td>
+            </tr>
+            <tr>
+                <td class="single-title">작성자</td>
+                <td th:text="${todo.regrId}">regrId</td>
+            </tr>
+            <tr>
+                <td class="single-title">파트</td>
+                    <td th:text="${todo.pgmPart}">pgmPart</td>
+            </tr>
+            <tr>
+                <td class="single-title">프로그램ID</td>
+                <td th:text="${todo.pgmId}">pgmId</td>
+            </tr>
+            <tr>
+                <td class="single-title">프로그램명</td>
+                <td th:text="${todo.pgmNm}">pgmNm</td>
+            </tr>
+            <tr>
+                <td class="single-title">프로그램한글명</td>
+                <td th:text="${todo.pgmHnm}">pgmHnm</td>
+            </tr>
+            <tr>
+                <td class="single-title">담당자</td>
+                <td th:text="${todo.dvlprId}">dvlprId</td>
+            </tr>
+            <tr>
+                <td class="single-title">검토자의견</td>
+                <td>
+                <textarea rows="3" style="" name="notes"
+                            th:inline="text">[[${todo.sprvsrDscrptn}]]</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="single-title">담당자의견</td>
+                <td th:text="${todo.dvlprDscrptn}">dvlprDscrptn</td>
+            </tr>
+            <tr>
+                <td class="single-title">조치요청기한</td>
+                <td th:text="${todo.actnReqDy}">actnReqDy</td>
+            </tr>
+            <tr>
+                <td class="single-title">조치예정기한</td>
+                <td th:text="${todo.actnPsbDy}">actnPsbDy</td>
+            </tr>
+            <tr>
+                <td class="single-title">조치완료기한</td>
+                <td th:text="${todo.actnCmplDy}">actnCmplDy</td>
+            </tr>
+          </tbody>
 
-    </table>
+        </table>
+    </div>
 </div>
+
 </body>
 
 </html>
