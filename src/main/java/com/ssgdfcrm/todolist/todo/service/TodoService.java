@@ -33,4 +33,8 @@ public class TodoService {
         return this.todoDao.findById(todoId);
     }
 
+    public Todo saveTodo(Todo todo){
+        return this.todoDao.save(todo);
+    }
+
 }

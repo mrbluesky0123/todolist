@@ -5,7 +5,7 @@
 
 td {
     vertical-align: top;
-    padding: 10px 0 0 0 !important;
+    padding: 5px 15px 5px 0 !important;
 }
 
 th {
@@ -22,7 +22,8 @@ th {
 }
 
 .table-div-single{
-    margin-top: 120px;
+    margin-top: 0px;
+    vertical-align:middle;
 }
 
 .main-table {
@@ -30,14 +31,73 @@ th {
      align-content: center;
 }
 
+.single-table {
+    width: 80% !important;
+    align-content: center;
+}
+
 textarea {
     margin-top: 1px;
     resize: none;
-    width: 1200px;
+    width: 800px;
     rows: 10;
+    line-height : normal; /* line-height 초기화 */
+    padding: .8em .5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
+    font-family: inherit; /* 폰트 상속 */
+    border: 1px solid #999;
+    border-radius: 0; /* iSO 둥근모서리 제거 */
+    outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
 }
 
 .single-title {
-    bgcolor: "#F2F2F2";
-    font: bold ;
+    /*background-color: #ffffff;*/
+    padding: 5px 0px 5px 10px !important;
+    font-weight: bold;
+    width: 20% !important;
 }
+
+.row-complete {
+    background-color: #fff1f1 !important;
+
+}
+
+.row-complete-mouseover {
+    background-color: #ffeaea !important;
+    cursor: pointer;
+}
+
+#todo-list tbody tr:hover {
+    background-color: #eaf9ff;
+    cursor: pointer;
+
+}
+
+.textbox {
+    width: 250px; /* 원하는 너비 설정 */
+    height: 35px; /* 높이값 초기화 */
+    line-height : normal; /* line-height 초기화 */
+    padding: .8em .5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
+    font-family: inherit; /* 폰트 상속 */
+    border: 1px solid #bababa;
+    border-radius: 0; /* iSO 둥근모서리 제거 */
+    outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
+    -webkit-appearance: none; /* 브라우저별 기본 스타일링 제거 */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+select {
+    border: 1px solid #bababa;
+    border-radius: 0; /* iSO 둥근모서리 제거 */
+    outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
+}
+
+.modify-div {
+    margin-top: 15px;
+    margin-bottom: 100px;
+    align-items: center;
+    text-align:center;
+}
+
+
+

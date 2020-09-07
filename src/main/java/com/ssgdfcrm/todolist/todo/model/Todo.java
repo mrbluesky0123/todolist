@@ -2,6 +2,7 @@ package com.ssgdfcrm.todolist.todo.model;
 
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -53,12 +54,15 @@ public class Todo {
     private String dvlprDscrptn;
 
     @Column(name="actn_req_dy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate actnReqDy;
 
     @Column(name="actn_psb_dy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate actnPsbDy;
 
     @Column(name="actn_cmpl_dy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate actnCmplDy;
 
 }

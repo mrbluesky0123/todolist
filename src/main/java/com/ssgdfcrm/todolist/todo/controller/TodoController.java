@@ -4,6 +4,7 @@ import com.ssgdfcrm.todolist.code.model.Code;
 import com.ssgdfcrm.todolist.code.service.CodeService;
 import com.ssgdfcrm.todolist.person.model.Person;
 import com.ssgdfcrm.todolist.person.service.PersonService;
+import com.ssgdfcrm.todolist.todo.dto.TodoRequest;
 import com.ssgdfcrm.todolist.todo.model.Todo;
 import com.ssgdfcrm.todolist.todo.service.TodoService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +44,8 @@ public class TodoController {
 
         modelAndView.addObject("todoList", todoList);
         modelAndView.addObject("partCodeList", partCodeList);
-        modelAndView.addObject("statusCodeList", statusCodeList);
         modelAndView.addObject("personList", personList);
+        modelAndView.addObject("statusCodeList", statusCodeList);
         modelAndView.setViewName("alltodolist");
 
         return modelAndView;
@@ -70,14 +71,32 @@ public class TodoController {
     }
 
     @GetMapping("/todoview/{id}")
-    public ModelAndView gatSingleTodo(@PathVariable int id) {
+    public ModelAndView getSingleTodo(@PathVariable int id) {
 
         ModelAndView modelAndView = new ModelAndView();
         Todo todo = this.todoService.getTodoByTodoId(id);
-        log.error(("#########################"));
+        List<Code> partCodeList = this.codeService.getCodeByCdGrp("PART_NM");
+        List<Code> statusCodeList = this.codeService.getCodeByCdGrp("PGM_STS");
+        List<Person> personList = this.personService.getAllPersonList();
+
         modelAndView.setViewName("singletodolist");
         modelAndView.addObject("todo", todo);
+        modelAndView.addObject("partCodeList", partCodeList);
+        modelAndView.addObject("personList", personList);
+        modelAndView.addObject("statusCodeList", statusCodeList);
         return modelAndView;
+
+    }
+
+    @PostMapping("/singletodo")
+    public int saveSingleTodo(@RequestBody TodoRequest todoRequest){
+        int result = 0;
+        log.debug(todoRequest.toString());
+        Todo newTodo = this.todoService.saveTodo(todoRequest.getTodo());
+        if(newTodo == null) {
+            result = -1;
+        }
+        return result;
     }
 
 }

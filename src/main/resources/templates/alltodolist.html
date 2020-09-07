@@ -35,15 +35,37 @@
         function tableSet() {
             var table = $('#todo-list').DataTable({
                 "paging": false,
-                "dom": 't'
+                "dom": 't',
+                "createdRow": function(row, data, dataIndex){
+                    if( data[1] == `조치완료`){
+                        console.log("###" + data[1]);
+                        $(row).addClass("row-complete");
+                    }
+                }
                 // "ordering": false,
                 // "info":     false
             } );
-            $('#todo-list').addClass("main-table");
             $('#todo-list tbody').on('click', 'tr', function () {
                 var data = table.row( this ).data();
                 location.href = "/todoview/" + data[0];
             } );
+            $('#todo-list tbody').on('mouseenter', 'tr', function () {
+                if($(table.row(this).nodes()).hasClass("row-complete")) {
+                    $(table.row(this).nodes()).addClass("row-complete-mouseover");
+                }
+
+            } );
+            $('#todo-list tbody').on('mouseleave', 'tr', function () {
+                if($(table.row(this).nodes()).hasClass("row-complete-mouseover")) {
+                    $(table.row(this).nodes()).removeClass("row-complete-mouseover");
+                }
+            } );
+
+
+
+            // table.addClass("main-table");
+            // table.addClass("display");
+            // table.addClass("compact");
         }
         $(document).ready(function() {
             tableSet();
