@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
 
     <script th:inline="javascript">
         function filter() {
@@ -39,6 +41,7 @@
 
         function tableSet() {
             var table = $('#todo-list').DataTable({
+                fixedHeader: true,
                 "paging": false,
                 "dom": 't',
                 "createdRow": function(row, data, dataIndex){
@@ -54,12 +57,12 @@
                     { "width": "110px", "targets": 2 },  // 작성일
                     { "width": "50px", "targets": 3 },  // 작성자
                     { "width": "65px", "targets": 4 },  // 파트
-                    { "width": "120px", "targets": 5 },  // 프로그램ID
-                    { "width": "150px", "targets": 6 }, // 프로그램명
-                    { "width": "200px", "targets": 7 },  // 프로그램 한글명
+                    { "width": "130px", "targets": 5 },  // 프로그램ID
+                    { "width": "158px", "targets": 6 }, // 프로그램명
+                    { "width": "180px", "targets": 7 },  // 프로그램 한글명
                     { "width": "50px", "targets": 8 }, // 담당자
-                    { "width": "500px", "targets": 9 }, // 검토자의견
-                    { "width": "500px", "targets": 10 }, // 담당자의견
+                    { "width": "490px", "targets": 9 }, // 검토자의견
+                    { "width": "490px", "targets": 10 }, // 담당자의견
                     { "width": "110px", "targets": 11 }, // 조치요청기한
                     { "width": "110px", "targets": 12 }, // 조치예정기한
                     { "width": "110px", "targets": 13 }, // 조치완료기한
@@ -68,6 +71,7 @@
                 // "ordering": false,
                 // "info":     false
             } );
+
             $('#todo-list tbody').on('click', 'tr', function () {
                 var data = table.row( this ).data();
                 location.href = "/todoview/" + data[0];

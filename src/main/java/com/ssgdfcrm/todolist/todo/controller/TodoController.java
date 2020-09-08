@@ -32,18 +32,16 @@ public class TodoController {
         this.codeService = codeService;
         this.personService = personService;
         this.mailService = mailService;
-//        log.error("###### TodoController");
     }
 
     @GetMapping("/alltodolist")
     public ModelAndView getAllTodoList() {
+
         ModelAndView modelAndView = new ModelAndView();
         List<Todo> todoList = this.todoService.getTodoList("ALL", "ALL", "ALL");
         List<Code> partCodeList = this.codeService.getCodeByCdGrp("PART_NM");
         List<Code> statusCodeList = this.codeService.getCodeByCdGrp("PGM_STS");
         List<Person> personList = this.personService.getAllPersonList();
-
-//        List<Code> partCodeList = this.codeService.getCodeByCdGrp("PART_NM");
 
         modelAndView.addObject("todoList", todoList);
         modelAndView.addObject("partCodeList", partCodeList);
@@ -52,6 +50,7 @@ public class TodoController {
         modelAndView.setViewName("alltodolist");
 
         return modelAndView;
+
     }
 
     @GetMapping("/refreshtodolist")
@@ -65,12 +64,14 @@ public class TodoController {
         modelAndView.setViewName("tablefragment");
         modelAndView.addObject("todoList", todoList);
         return modelAndView;
+
     }
 
-    @GetMapping("/singletodo/{id}")
-    public String redirectSingleTodo(@PathVariable int id) {
-        log.error(("##########$$$$$$$$$$$$$$$###############"));
-        return "redirect:/todoview/" + id;
+    @GetMapping("/")
+    public String redirectSingleTodo() {
+
+        return "redirect:/alltodolist";
+
     }
 
     @GetMapping("/todoview/{id}")
@@ -110,6 +111,7 @@ public class TodoController {
     @PostMapping("/singletodo")
     @ResponseBody
     public int saveSingleTodo(@RequestBody TodoRequest todoRequest){
+
         int result = 0;
         log.info(todoRequest.toString());
         Todo todo = todoRequest.getTodo();
@@ -128,6 +130,7 @@ public class TodoController {
             this.mailService.sendMail(todo, changeKind, mailToRegr);
         }
         return result;
+
     }
 
 }
