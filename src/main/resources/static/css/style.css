@@ -6,6 +6,10 @@
 td {
     vertical-align: top;
     padding: 5px 15px 5px 0 !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break:break-all !important;
+    white-space: pre-line !important;
 }
 
 th {
@@ -13,7 +17,7 @@ th {
 }
 
 .general-div {
-    margin-left: 80px;
+    margin-left: 60px;
     margin-top: 100px;
 }
 
@@ -27,7 +31,7 @@ th {
 }
 
 .main-table {
-     width: 90% !important;
+     width: 98% !important;
      align-content: center;
 }
 
@@ -58,6 +62,20 @@ textarea {
 
 .row-complete {
     background-color: #fff1f1 !important;
+
+}
+.row-complete {
+    background-color: #fff1f1 !important;
+
+}
+
+.row-end {
+    background-color: rgb(181, 181, 181) !important;
+
+}
+
+.row-end-mouseover {
+    background-color: rgb(219, 219, 219) !important;
 
 }
 

@@ -13,25 +13,22 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <script th:inline="javascript">
-        function save() {
-            var formData = $("#single-todo").serialize();
+        function today() {
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth()+1;
+            var day = date.getDate();
+            if(month < 10){
+                month = "0"+month;
+            }
+            if(day < 10){
+                day = "0"+day;
+            }
 
-            $.ajax({
-                cache : false,
-                url : "${pageContext.request.contextPath}/testForm1", // 요기에
-                type : 'POST',
-                data : formData,
-                dataType: 'json',
-                success : function(data) {
-                    var jsonObj = JSON.parse(data);
-                }, // success
+            var now = year+"-"+month+"-"+day;
+            return now;
 
-                error : function(xhr, status) {
-                    alert(xhr + " : " + status);
-                }
-            }); // $.ajax */
         }
-
 
         function tableSet() {
             var table = $('#todo-list').DataTable({
@@ -46,13 +43,10 @@
         }
         $(document).ready(function() {
             tableSet();
+            $('#regDt').text(today());
         } );
 
-        function list() {
-            window.location.href = "../alltodolist";
-        }
-
-        function updateTodo() {
+        function saveTodo() {
             var reqJson = {};
             reqJson.todo = {
                 "id" : $("#id").text(),
@@ -70,10 +64,8 @@
                 "actnPsbDy" : $("#actnPsbDy").val(),
                 "actnCmplDy" : $("#actnCmplDy").val()
             };
-            reqJson.mailToDvlpr = $("#mailToDvlpr").is(":checked") ? $('#mailToDvlpr').val() : "null";
-            reqJson.mailToRegr = $("#mailToRegr").is(":checked") ? $('#mailToRegr').val() : "null";
-            reqJson.changeKind = "U";
-            console.log("####" + JSON.stringify(reqJson));
+            reqJson.mailToDvlpr = $("#mailToDvlpr").is(":checked") ? $('#dvlprId option:selected').val() : "null";
+            reqJson.changeKind = "C";
             //비동기 요청
             $.ajax({
                 type : "post", //POST로
@@ -87,15 +79,15 @@
                     switch (Number(data)) {
                         case -1:
                             alert("저장 실패!");
-                            window.location.href = "/singletodo/" + $("#id").text();
+                            window.location.href = "../alltodolist";
                             break;
                         case 0:
                             alert("정상적으로 등록 되었습니다.");
-                            window.location.href = "/singletodo/" + $("#id").text();
+                            window.location.href = "../alltodolist";
                             break;
                         default:
                             alert("알수없는 오류가 발생했습니다.");
-                            window.location.href = "/singletodo/" + $("#id").text();
+                            window.location.href = "../alltodolist";
                             break;
                     }
                 },
@@ -115,128 +107,113 @@
     <div class="table-div-single">
         <table id="todo-list" th:fragment="todo-table" class="row-border table-striped single-table">
             <thead>
-                <tr>
-                    <th>항목</th>
-                    <th>내용</th>
-                </tr>
+            <tr>
+                <th>항목</th>
+                <th>내용</th>
+            </tr>
             </thead>
             <tbody>
             <tr>
-                <td class="single-title">id</td>
-                <td id="id" th:text="${todo.id}">id</td>
-            </tr>
-            <tr>
                 <td class="single-title">상태</td>
                 <td> <select id="pgmSts" name="status" style="width:90px;height:30px">
-                        <option th:each="statusCode : ${statusCodeList}"
-                                th:value="${statusCode.cdVal}"
-                                th:utext="${statusCode.cdVal}"
-                                th:selected="${statusCode.cdVal == todo.pgmSts}"
-                        />
-                    </select></td>
+                    <option th:each="statusCode : ${statusCodeList}"
+                            th:value="${statusCode.cdVal}"
+                            th:utext="${statusCode.cdVal}"
+                            th:selected="${statusCode.cdVal} == '요청'"
+                    />
+                </select></td>
             </tr>
             <tr>
                 <td class="single-title">작성일</td>
-                <td id="regDt" th:text="${todo.regDt}">regDt</td>
+                <td id="regDt">regDt</td>
             </tr>
             <tr>
                 <td class="single-title">작성자</td>
                 <td><select id="regrId" name="registerer" style="width:90px;height:30px">
-                        <option th:each="person : ${personList}"
-                                th:value="${person.personNm}"
-                                th:utext="${person.personNm}"
-                                th:selected="${person.personNm == todo.regrId}"
-                        />
-                    </select></td>
+                    <option th:each="person : ${personList}"
+                            th:value="${person.personNm}"
+                            th:utext="${person.personNm}"
+                    />
+                </select></td>
             </tr>
             <tr>
                 <td class="single-title">파트</td>
                 <td> <select id="pgmPart" name="part" style="width:100px;height:30px">
-                        <option th:each="partCode : ${partCodeList}"
-                                th:value="${partCode.cdVal}"
-                                th:utext="${partCode.cdVal}"
-                                th:selected="${partCode.cdVal == todo.pgmPart}"
-                        />
-                    </select></td>
+                    <option th:each="partCode : ${partCodeList}"
+                            th:value="${partCode.cdVal}"
+                            th:utext="${partCode.cdVal}"
+                    />
+                </select></td>
             </tr>
             <tr>
                 <td class="single-title">프로그램ID</td>
                 <td><input id="pgmId"
                            class="textbox"
                            type="text"
-                           th:value="${todo.pgmId}"
-                           th:field="*{todo.pgmId}"/></td>
+                           /></td>
             </tr>
             <tr>
                 <td class="single-title">프로그램명</td>
                 <td><input id="pgmNm"
                            class="textbox"
                            type="text"
-                           th:value="${todo.pgmNm}"
-                           th:field="*{todo.pgmNm}"/></td>
+                           /></td>
             </tr>
             <tr>
                 <td class="single-title">프로그램한글명</td>
                 <td><input id="pgmHnm"
                            class="textbox"
                            type="text"
-                           th:value="${todo.pgmHnm}"
-                           th:field="*{todo.pgmHnm}"/></td>
+                           /></td>
             </tr>
             <tr>
                 <td class="single-title">담당자</td>
                 <td><select id="dvlprId" name="developer" style="width:90px;height:30px">
-                        <option th:each="person : ${personList}"
-                                th:value="${person.personNm}"
-                                th:utext="${person.personNm}"
-                                th:selected="${person.personNm == todo.dvlprId}"
-                        />
-                    </select></td>
+                    <option th:each="person : ${personList}"
+                            th:value="${person.personNm}"
+                            th:utext="${person.personNm}"
+                    />
+                </select></td>
             </tr>
             <tr>
                 <td class="single-title">검토자의견</td>
                 <td><textarea id="sprvsrDscrptn" rows="3" style="" name="notes"
-                            th:inline="text">[[${todo.sprvsrDscrptn}]]</textarea></td>
+                              th:inline="text"></textarea></td>
             </tr>
             <tr>
                 <td class="single-title">담당자의견</td>
                 <td><textarea id="dvlprDscrptn" rows="3" style="" name="notes"
-                          th:inline="text">[[${todo.dvlprDscrptn}]]</textarea></td>
+                              th:inline="text"></textarea></td>
             </tr>
             <tr>
                 <td class="single-title">조치요청기한</td>
                 <td><input id="actnReqDy"
                            class="textbox"
                            type="date"
-                           th:value="${todo.actnReqDy}"
-                           th:field="*{todo.actnReqDy}"/></td>
-<!--                <td th:text="${todo.actnReqDy}">actnReqDy</td>-->
+                /></td>
+                <!--                <td th:text="${todo.actnReqDy}">actnReqDy</td>-->
             </tr>
             <tr>
                 <td class="single-title">조치예정기한</td>
                 <td><input id="actnPsbDy"
                            class="textbox"
                            type="date"
-                           th:value="${todo.actnPsbDy}"
-                           th:field="*{todo.actnPsbDy}"/></td>
-<!--                <td th:text="${todo.actnPsbDy}">actnPsbDy</td>-->
+                /></td>
+                <!--                <td th:text="${todo.actnPsbDy}">actnPsbDy</td>-->
             </tr>
             <tr>
                 <td class="single-title">조치완료일</td>
                 <td><input id="actnCmplDy"
                            class="textbox"
                            type="date"
-                           th:value="${todo.actnCmplDy}"
-                           th:field="*{todo.actnCmplDy}"/></td>
-<!--                <td th:text="${todo.actnCmplDy}">actnCmplDy</td>-->
+                /></td>
+                <!--                <td th:text="${todo.actnCmplDy}">actnCmplDy</td>-->
             </tr>
-          </tbody>
+            </tbody>
         </table>
         <div class="modify-div">
-            <p><label><input id="mailToDvlpr" type="checkbox" name="color" th:value="${todo.dvlprId}"> 담당자에게 메일 보내기</label></p>
-            <p><label><input id="mailToRegr" type="checkbox" name="color" th:value="${todo.regrId}"> 작성자에게 메일 보내기</label></p>
-            <button id="update" class="btn" th:onclick="'updateTodo();'" style="width:150px;">수     정</button>
-            <button id="back" class="btn" th:onclick="'list();'" style="width:150px;">목록보기</button>
+            <p><label><input id="mailToDvlpr" type="checkbox" name="color" value="'$('#mailSendYn').val()'"> 담당자에게 메일 보내기</label></p>
+            <button id="update" class="btn" th:onclick="'saveTodo();'" style="width:150px;">작성</button>
         </div>
     </div>
 </div>

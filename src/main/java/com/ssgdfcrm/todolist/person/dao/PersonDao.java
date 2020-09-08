@@ -12,5 +12,6 @@ public interface PersonDao extends JpaRepository<Person, Long> {
 
     List<Person> findAllByOrderByPersonNm();
     List<Person> findByPersonId(String pId);
+    Person findByPersonNm(String pNm);
 
 }

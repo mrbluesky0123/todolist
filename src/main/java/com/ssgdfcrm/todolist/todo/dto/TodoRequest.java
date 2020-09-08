@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TodoRequest {
     private Todo todo;
-    private String mailSendYn;
+    private String changeKind;
+    private String mailToDvlpr;
+    private String mailToRegr;
 }
