@@ -74,6 +74,11 @@ public class TodoController {
 
     }
 
+    @GetMapping("/singletodo/{id}")
+    public String redirectSingleTodo(@PathVariable int id) {
+        return "redirect:/todoview/" + id;
+    }
+
     @GetMapping("/todoview/{id}")
     public ModelAndView getSingleTodo(@PathVariable int id) {
 
@@ -123,10 +128,10 @@ public class TodoController {
         if(newTodo == null) {
             result = -1;
         }
-        if(mailToDvlpr != null) {
+        if(!"null".equals(mailToDvlpr)) {
             this.mailService.sendMail(todo, changeKind, mailToDvlpr);
         }
-        if(mailToRegr != null) {
+        if(!"null".equals(mailToRegr)) {
             this.mailService.sendMail(todo, changeKind, mailToRegr);
         }
         return result;

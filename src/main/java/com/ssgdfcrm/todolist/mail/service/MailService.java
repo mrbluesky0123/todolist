@@ -89,6 +89,7 @@ public class MailService {
         String programNm = todo.getPgmNm();
         String programHnm = todo.getPgmHnm();
         String dvlprName = todo.getDvlprId();
+        String pgmStatus = todo.getPgmSts();
         String link = "http://198.13.47.188:8080/todoview/" + todo.getId();
 
         String contents = "";
@@ -101,6 +102,7 @@ public class MailService {
         contents += "* 작성자: " + regrName + "<br/>";
         contents += "* 작성일자: " + regDate + "<br/>";
         contents += "* 담당자: " + dvlprName + "<br/>";
+        contents += "* Todo상태: " + pgmStatus + "<br/>";
         contents += "* 프로그램ID: " + programId + "<br/>";
         contents += "* 프로그램명: " + programNm + "<br/>";
         contents += "* 프로그램한글명: " + programHnm + "<br/>";
