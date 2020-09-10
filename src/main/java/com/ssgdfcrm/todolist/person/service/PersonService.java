@@ -19,7 +19,7 @@ public class PersonService {
     }
 
     public List<Person> getAllPersonList() {
-        return this.personDao.findAll();
+        return this.personDao.findAllByOrderByPersonNm();
     }
 
 }

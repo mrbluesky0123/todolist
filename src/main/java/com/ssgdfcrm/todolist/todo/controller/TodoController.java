@@ -76,7 +76,9 @@ public class TodoController {
 
     @GetMapping("/singletodo/{id}")
     public String redirectSingleTodo(@PathVariable int id) {
+
         return "redirect:/todoview/" + id;
+
     }
 
     @GetMapping("/todoview/{id}")
@@ -93,12 +95,13 @@ public class TodoController {
         modelAndView.addObject("partCodeList", partCodeList);
         modelAndView.addObject("personList", personList);
         modelAndView.addObject("statusCodeList", statusCodeList);
+
         return modelAndView;
 
     }
 
     @GetMapping("/newtodo")
-    public ModelAndView getSingleTodo() {
+    public ModelAndView postSingleTodo() {
 
         ModelAndView modelAndView = new ModelAndView();
         List<Code> partCodeList = this.codeService.getCodeByCdGrp("PART_NM");
