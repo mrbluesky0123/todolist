@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+    <!-- JQury from Google CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
+
+    <script th:inline="javascript">
+        function filter() {
+            $.ajax({
+                type: 'get',
+                url: '/refreshtodolist?status=' + $("#status option:selected").val() + '&'
+                                    + 'partName=' + $("#part option:selected").val() + '&'
+                                    + 'developerId=' + $("#developer option:selected").val(),
+                success: function (data){
+                    $('#todo-div').html(data);
+                    tableSet();
+                }
+            })
+
+        }
+        function changeFunc(key) {
+            console.log("#### " + $("#status option:selected").val());
+            console.log("#### " + $("#part option:selected").val());
+            console.log("#### " + $("#developer option:selected").val());
+        }
+
+        function postNewTodo(key) {
+            location.href = "/newtodo/";
+        }
+
+        function tableSet() {
+            var table = $('#todo-list').DataTable({
+                fixedHeader: true,
+                "paging": false,
+                "dom": 't',
+                "createdRow": function(row, data, dataIndex){
+                    if( data[1] == `조치완료`){
+                        $(row).addClass("row-complete");
+                    } else if( data[1] == `종료`){
+                        $(row).addClass("row-end");
+                    }
+                },
+                "columnDefs": [
+                    { "width": "15px", "targets": 0 },  // #
+                    { "width": "60px", "targets": 1 },  // 상태
+                    { "width": "110px", "targets": 2 },  // 작성일
+                    { "width": "50px", "targets": 3 },  // 작성자
+                    { "width": "65px", "targets": 4 },  // 파트
+                    { "width": "130px", "targets": 5 },  // 프로그램ID
+                    { "width": "158px", "targets": 6 }, // 프로그램명
+                    { "width": "180px", "targets": 7 },  // 프로그램 한글명
+                    { "width": "50px", "targets": 8 }, // 담당자
+                    { "width": "490px", "targets": 9 }, // 검토자의견
+                    { "width": "490px", "targets": 10 }, // 담당자의견
+                    { "width": "110px", "targets": 11 }, // 조치요청기한
+                    { "width": "110px", "targets": 12 }, // 조치예정기한
+                    { "width": "110px", "targets": 13 }, // 조치완료기한
+
+                ],
+                // "ordering": false,
+                // "info":     false
+            } );
+
+            $('#todo-list tbody').on('click', 'tr', function () {
+                var data = table.row( this ).data();
+                location.href = "/todoview/" + data[0];
+            } );
+            $('#todo-list tbody').on('mouseenter', 'tr', function () {
+                if($(table.row(this).nodes()).hasClass("row-complete")) {
+                    $(table.row(this).nodes()).addClass("row-complete-mouseover");
+                } else if($(table.row(this).nodes()).hasClass("row-end")) {
+                    $(table.row(this).nodes()).addClass("row-end-mouseover");
+                }
+
+            } );
+            $('#todo-list tbody').on('mouseleave', 'tr', function () {
+                if($(table.row(this).nodes()).hasClass("row-complete-mouseover")) {
+                    $(table.row(this).nodes()).removeClass("row-complete-mouseover");
+                } else if($(table.row(this).nodes()).hasClass("row-end-mouseover")) {
+                    $(table.row(this).nodes()).removeClass("row-end-mouseover");
+                }
+            } );
+
+        }
+        $(document).ready(function() {
+            tableSet();
+        } );
+    </script>
+
+</head>
+<body>
+
+    <div id="filter" class="general-div">
+        <select  id="status" name="status" style="width:90px;height:30px">
+            <option value="ALL">요청상태</option>
+            <option th:each="statusCode : ${statusCodeList}" th:value="${statusCode.cdVal}" th:utext="${statusCode.cdVal}"/>
+        </select>
+        <select  id="part" name="part" style="width:100px;height:30px">
+            <option value="ALL">파트</option>
+            <option th:each="partCode : ${partCodeList}" th:value="${partCode.cdVal}" th:utext="${partCode.cdVal}"/>
+        </select>
+        <select  id="developer" name="developer" style="width:90px;height:30px">
+            <option value="ALL">담당자</option>
+            <option th:each="person : ${personList}" th:value="${person.personNm}" th:utext="${person.personNm}"/>
+        </select>
+        <button class="btn" th:onclick="'filter();'">검색</button>
+        <button class="btn" th:onclick="'postNewTodo();'">신규작성</button>
+    </div>
+    <div id="todo-div" class="table-div-list">
+        <table class="display main-table compact" th:replace="tablefragment.html :: todo-table"></table>
+    </div>
+</body>
+
+</html>
