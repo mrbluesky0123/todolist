@@ -34,7 +34,6 @@ public class MailService {
 
     @Async
     public void sendMail(Todo todo, String changeKind, String personName) {
-
         String to = this.getMailAddress(personName);
         MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
@@ -98,15 +97,16 @@ public class MailService {
         } else if("U".equals(changeKind)) {
             contents += "<p>귀하의 todo가 변경되었습니다. 아래 내용을 확인해주세요.<p>";
         }
+        contents += "<style>body{font: 14px/1.5 arial, helvetica, sans-serif;}</style>";
         contents += "<p>";
-        contents += "* 작성자: " + regrName + "<br/>";
-        contents += "* 작성일자: " + regDate + "<br/>";
-        contents += "* 담당자: " + dvlprName + "<br/>";
-        contents += "* Todo상태: " + pgmStatus + "<br/>";
-        contents += "* 프로그램ID: " + programId + "<br/>";
-        contents += "* 프로그램명: " + programNm + "<br/>";
-        contents += "* 프로그램한글명: " + programHnm + "<br/>";
-        contents += "* 링크: <a href=\"" + link + "\">" + "바로가기" + "</a><br/>";
+        contents += "<li>" + "작성자: " + regrName + "</li>";
+        contents += "<li>" + "작성일자: " + regDate + "</li>";
+        contents += "<li>" + "담당자: " + dvlprName + "</li>";
+        contents += "<li>" + "Todo상태: " + pgmStatus + "</li>";
+        contents += "<li>" + "프로그램ID: " + programId + "</li>";
+        contents += "<li>" + "프로그램명: " + programNm + "</li>";
+        contents += "<li>" + "프로그램한글명: " + programHnm + "</li>";
+        contents += "<li>" + "링크: <a href=\"" + link + "\">" + "바로가기" + "</a></li>";
         contents += "</p>";
         contents += "<p>" + "(Do not reply to this mail.)" + "</p>";
 

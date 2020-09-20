@@ -66,6 +66,7 @@
             };
             reqJson.mailToDvlpr = $("#mailToDvlpr").is(":checked") ? $('#dvlprId option:selected').val() : "null";
             reqJson.changeKind = "C";
+            reqJson.mailToRegr = "null";
             //비동기 요청
             $.ajax({
                 type : "post", //POST로

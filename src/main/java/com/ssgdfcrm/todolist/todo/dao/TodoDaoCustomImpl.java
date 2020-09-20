@@ -53,6 +53,8 @@ public class TodoDaoCustomImpl extends QuerydslRepositorySupport implements Todo
             whereBuilder.and(todo.pgmSts.eq(status))
                     .and(todo.pgmPart.eq(partName))
                     .and(todo.dvlprId.eq(personId));
+        } else if(isStatusAllPartNameAllPersonIdAll(status, partName, personId)){
+            return from(todo).fetch();
         }
         return from(todo).where(whereBuilder).fetch();
 

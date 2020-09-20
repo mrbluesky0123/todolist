@@ -23,14 +23,6 @@ public class TodoService {
         return this.todoDao.findByConditions(status, partName, developerId);
     }
 
-    public List<Todo> getTodoListByPgmPart(String pgmPart) {
-        return this.todoDao.findByPgmPart(pgmPart);
-    }
-
-    public List<Todo> getTodoListByDvlprID(String dvlprId) {
-        return this.todoDao.findByDvlprId(dvlprId);
-    }
-
     public Todo getTodoByTodoId(int todoId) {
         return this.todoDao.findById(todoId);
     }

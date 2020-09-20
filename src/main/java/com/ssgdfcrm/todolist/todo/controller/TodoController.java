@@ -11,6 +11,7 @@ import com.ssgdfcrm.todolist.todo.service.TodoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -38,21 +39,21 @@ public class TodoController {
     public ModelAndView getAllTodoList() {
 
         ModelAndView modelAndView = new ModelAndView();
-        List<Todo> todoList = this.todoService.getTodoList("ALL", "ALL", "ALL");
         List<Code> partCodeList = this.codeService.getCodeByCdGrp("PART_NM");
         List<Code> statusCodeList = this.codeService.getCodeByCdGrp("PGM_STS");
         List<Person> personList = this.personService.getAllPersonList();
 
-        modelAndView.addObject("todoList", todoList);
         modelAndView.addObject("partCodeList", partCodeList);
         modelAndView.addObject("personList", personList);
         modelAndView.addObject("statusCodeList", statusCodeList);
-        modelAndView.setViewName("alltodolist");
+
+        modelAndView.setViewName("newalltodolist");
 
         return modelAndView;
 
     }
 
+    /* UNUSED
     @GetMapping("/refreshtodolist")
     public ModelAndView refreshAllTodoList(@RequestParam String status,
                                            @RequestParam String partName,
@@ -65,13 +66,11 @@ public class TodoController {
         modelAndView.addObject("todoList", todoList);
         return modelAndView;
 
-    }
+    } */
 
     @GetMapping("/")
     public String redirectSingleTodo() {
-
         return "redirect:/alltodolist";
-
     }
 
     @GetMapping("/singletodo/{id}")
@@ -131,10 +130,12 @@ public class TodoController {
         if(newTodo == null) {
             result = -1;
         }
-        if(!"null".equals(mailToDvlpr)) {
+
+        if(!("null".equals(mailToDvlpr))) {
             this.mailService.sendMail(todo, changeKind, mailToDvlpr);
         }
-        if(!"null".equals(mailToRegr)) {
+        if(!("null".equals(mailToRegr))) {
+            log.error("FFFFFFFFFFFFFf: '{}'", mailToRegr);
             this.mailService.sendMail(todo, changeKind, mailToRegr);
         }
         return result;
