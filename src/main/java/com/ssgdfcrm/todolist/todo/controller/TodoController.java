@@ -135,7 +135,6 @@ public class TodoController {
             this.mailService.sendMail(todo, changeKind, mailToDvlpr);
         }
         if(!("null".equals(mailToRegr))) {
-            log.error("FFFFFFFFFFFFFf: '{}'", mailToRegr);
             this.mailService.sendMail(todo, changeKind, mailToRegr);
         }
         return result;

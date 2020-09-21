@@ -92,12 +92,20 @@ public class MailService {
         String link = "http://198.13.47.188:8080/todoview/" + todo.getId();
 
         String contents = "";
+        String style = "<head>" +
+                        "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" +
+                        "<style type=\"text/css\">.a {font-size:10pt;font-family:\"맑은 고딕\";border-collapse:collapse;border:1px gray; padding-top:1px; padding-bottom:1px}" +
+                        "</style>" +
+                        "</head>\n";
+        contents += style;
+        contents += "<body class=\"a\">";
+
         if("C".equals(changeKind)) {
             contents += "<p>새로운 todo가 등록되었습니다. 아래 내용을 확인해주세요.<p>";
         } else if("U".equals(changeKind)) {
             contents += "<p>귀하의 todo가 변경되었습니다. 아래 내용을 확인해주세요.<p>";
         }
-        contents += "<style>body{font: 14px/1.5 arial, helvetica, sans-serif;}</style>";
+
         contents += "<p>";
         contents += "<li>" + "작성자: " + regrName + "</li>";
         contents += "<li>" + "작성일자: " + regDate + "</li>";
@@ -109,6 +117,7 @@ public class MailService {
         contents += "<li>" + "링크: <a href=\"" + link + "\">" + "바로가기" + "</a></li>";
         contents += "</p>";
         contents += "<p>" + "(Do not reply to this mail.)" + "</p>";
+        contents += "</body>";
 
         return contents;
 

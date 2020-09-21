@@ -8,7 +8,7 @@ td {
     padding: 5px 15px 5px 0 !important;
     text-overflow: ellipsis;
     overflow: hidden;
-    word-break:break-all !important;
+    word-break: break-all !important;
     white-space: pre-line !important;
 }
 

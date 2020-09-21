@@ -33,10 +33,11 @@
 
         function tableSet() {
             var table = $('#todo-list').DataTable({
-                "fixedHeader": true,
+                "responsive": true,
                 "paging": false,
                 "dom": 't',
-                ajax : {
+                "fixedColumns": true,
+                "ajax" : {
                     "url":"/alltodolistnew?status="
                         + $("#status option:selected").val() + "&"
                         + "partName=" + $("#part option:selected").val() + "&"
@@ -69,6 +70,7 @@
                 // "ordering": false,
                 // "info":     false
             } );
+            new $.fn.dataTable.FixedHeader(table);
 
             $('#todo-list tbody').on('click', 'tr', function () {
                 var data = table.row( this ).data();
