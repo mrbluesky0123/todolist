@@ -28,7 +28,7 @@
         }
 
         function postNewTodo(key) {
-            location.href = "/newtodo/";
+            window.open("/newtodo/",'window','location=no, directories=no, resizable=no, status=no,toolbar=no,menubar=no, width=1500px,height=900px, scrollbarX=no');
         }
 
         function tableSet() {
@@ -49,7 +49,7 @@
                         $(row).addClass("row-complete");
                     } else if( data.pgmSts == `종료`){
                         $(row).addClass("row-end");
-                    }
+                    }   
                 },
                 "columnDefs": [
                     {"data": "id", "width": "15px", "targets": 0 },  // #
@@ -73,8 +73,12 @@
             new $.fn.dataTable.FixedHeader(table);
 
             $('#todo-list tbody').on('click', 'tr', function () {
+                // var data = table.row( this ).data();
+                // location.href = "/todoview/" + data.id;
                 var data = table.row( this ).data();
-                location.href = "/todoview/" + data.id;
+                var uri = "/todoview/" + data.id;
+                window.open(uri,'window','location=no, directories=no, resizable=no, status=no,toolbar=no,menubar=no, width=1500px,height=900px, scrollbarX=no')
+                // window.open(uri, "_blank");
             } );
             $('#todo-list tbody').on('mouseenter', 'tr', function () {
                 if($(table.row(this).nodes()).hasClass("row-complete")) {

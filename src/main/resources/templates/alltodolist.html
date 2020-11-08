@@ -74,7 +74,11 @@
 
             $('#todo-list tbody').on('click', 'tr', function () {
                 var data = table.row( this ).data();
-                location.href = "/todoview/" + data[0];
+                var uri = "/todoview/" + data[0];
+                window.alert(uri);
+                window.open(uri);
+
+                // location.href = "/todoview/" + data[0];
             } );
             $('#todo-list tbody').on('mouseenter', 'tr', function () {
                 if($(table.row(this).nodes()).hasClass("row-complete")) {

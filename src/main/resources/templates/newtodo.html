@@ -67,6 +67,7 @@
             reqJson.mailToDvlpr = $("#mailToDvlpr").is(":checked") ? $('#dvlprId option:selected').val() : "null";
             reqJson.changeKind = "C";
             reqJson.mailToRegr = "null";
+            console.log(reqJson);
             //비동기 요청
             $.ajax({
                 type : "post", //POST로
@@ -80,15 +81,21 @@
                     switch (Number(data)) {
                         case -1:
                             alert("저장 실패!");
-                            window.location.href = "../alltodolist";
+                            // window.location.href = "../alltodolist";
+                            opener.document.location.reload();
+                            window.open('','_self').close();
                             break;
                         case 0:
                             alert("정상적으로 등록 되었습니다.");
-                            window.location.href = "../alltodolist";
+                            // window.location.href = "../alltodolist";
+                            opener.document.location.reload();
+                            window.open('','_self').close();
                             break;
                         default:
                             alert("알수없는 오류가 발생했습니다.");
                             window.location.href = "../alltodolist";
+                            opener.document.location.reload();
+                            window.open('','_self').close();
                             break;
                     }
                 },
@@ -97,6 +104,12 @@
                 }
             });
 
+        }
+
+        function closeWindow() {
+            // console.log("QQQQ");
+            opener.document.location.reload();
+            window.open('','_self').close();
         }
 
     </script>
@@ -214,7 +227,8 @@
         </table>
         <div class="modify-div">
             <p><label><input id="mailToDvlpr" type="checkbox" name="color" value="'$('#mailSendYn').val()'"> 담당자에게 메일 보내기</label></p>
-            <button id="update" class="btn" th:onclick="'saveTodo();'" style="width:150px;">작성</button>
+            <button id="update" class="btn" th:onclick="'saveTodo();'" style="width:150px;">작     성</button>
+            <button id="back" class="btn" th:onclick="'closeWindow();'" style="width:150px;">닫     기</button>
         </div>
     </div>
 </div>

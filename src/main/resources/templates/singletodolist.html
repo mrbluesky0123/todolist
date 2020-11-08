@@ -13,25 +13,6 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <script th:inline="javascript">
-        function save() {
-            var formData = $("#single-todo").serialize();
-
-            $.ajax({
-                cache : false,
-                url : "${pageContext.request.contextPath}/testForm1", // 요기에
-                type : 'POST',
-                data : formData,
-                dataType: 'json',
-                success : function(data) {
-                    var jsonObj = JSON.parse(data);
-                }, // success
-
-                error : function(xhr, status) {
-                    alert(xhr + " : " + status);
-                }
-            }); // $.ajax */
-        }
-
 
         function tableSet() {
             var table = $('#todo-list').DataTable({
@@ -43,6 +24,7 @@
                 // "info":     false
             } );
             $('td').addClass("main-table");
+
         }
         $(document).ready(function() {
             tableSet();
@@ -50,6 +32,11 @@
 
         function list() {
             window.location.href = "../alltodolist";
+        }
+
+        function closeWindow() {
+            // console.log("QQQQ");
+            window.open('','_self').close();
         }
 
         function updateTodo() {
@@ -73,7 +60,6 @@
             reqJson.mailToDvlpr = $("#mailToDvlpr").is(":checked") ? $('#mailToDvlpr').val() : "null";
             reqJson.mailToRegr = $("#mailToRegr").is(":checked") ? $('#mailToRegr').val() : "null";
             reqJson.changeKind = "U";
-            console.log("####" + JSON.stringify(reqJson));
             //비동기 요청
             $.ajax({
                 type : "post", //POST로
@@ -91,6 +77,7 @@
                             break;
                         case 0:
                             alert("정상적으로 등록 되었습니다.");
+                            opener.parent.filter();
                             window.location.href = "/singletodo/" + $("#id").text();
                             break;
                         default:
@@ -109,7 +96,7 @@
     </script>
 
 </head>
-<body>
+<body style="overflow-x:hidden; overflow-y:auto;">
 
 <div id="todo-div" class="row">
     <div class="table-div-single">
@@ -236,7 +223,7 @@
             <p><label><input id="mailToDvlpr" type="checkbox" name="color" th:value="${todo.dvlprId}"> 담당자에게 메일 보내기</label></p>
             <p><label><input id="mailToRegr" type="checkbox" name="color" th:value="${todo.regrId}"> 작성자에게 메일 보내기</label></p>
             <button id="update" class="btn" th:onclick="'updateTodo();'" style="width:150px;">수     정</button>
-            <button id="back" class="btn" th:onclick="'list();'" style="width:150px;">목록보기</button>
+            <button id="back" class="btn" th:onclick="'closeWindow();'" style="width:150px;">닫     기</button>
         </div>
     </div>
 </div>

@@ -68,12 +68,13 @@ public class MailService {
     }
 
     public String getMailAddress(String personName) {
-
+        log.error("####### {}" + personName);
         Person targetPerson = this.personDao.findByPersonNm(personName);
         String mailAddress;
         if("깡승보".equals(personName)) {
             mailAddress = "gogetit88@gmail.com";
         } else {
+            log.error("#######@@ {}" + personName);
             mailAddress = "q" + targetPerson.getPersonId() + "@shinsegae.com";
         }
         return mailAddress;
