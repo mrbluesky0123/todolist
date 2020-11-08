@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@CrossOrigin
 public class TodoRestController {
 
     private TodoService todoService;
@@ -34,14 +35,15 @@ public class TodoRestController {
     }
 
     @GetMapping("/alltodolistnew")
-    public ResponseDto<List> getAllTodoList(@RequestParam String status,
+//    public ResponseDto<List> getAllTodoList(@RequestParam String status,
+    public List<Todo> getAllTodoList(@RequestParam String status,
                                      @RequestParam String partName,
                                      @RequestParam String developerId) {
 
         List<Todo> todoList = this.todoService.getTodoList(status, partName, developerId);
-//        log.debug("########### " + todoList.get(1).toString());
+        log.info("########### " + todoList.get(1).toString());
         ResponseDto<List> response = new ResponseDto<>(todoList);
-        return response;
+        return todoList;
 
     }
 
@@ -65,6 +67,7 @@ public class TodoRestController {
 
     @GetMapping("/todo/{id}")
     public Todo getSingleTodo(@PathVariable int id) {
+        log.error("##### {}", "FUCK");
         return this.todoService.getTodoByTodoId(id);
     }
 
