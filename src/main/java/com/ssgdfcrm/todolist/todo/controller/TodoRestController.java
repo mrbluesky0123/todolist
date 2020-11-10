@@ -36,14 +36,14 @@ public class TodoRestController {
 
     @GetMapping("/alltodolistnew")
 //    public ResponseDto<List> getAllTodoList(@RequestParam String status,
-    public List<Todo> getAllTodoList(@RequestParam String status,
+    public ResponseDto<List> getAllTodoList(@RequestParam String status,
                                      @RequestParam String partName,
                                      @RequestParam String developerId) {
 
         List<Todo> todoList = this.todoService.getTodoList(status, partName, developerId);
         log.info("########### " + todoList.get(1).toString());
         ResponseDto<List> response = new ResponseDto<>(todoList);
-        return todoList;
+        return response;
 
     }
 
